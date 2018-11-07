@@ -58,24 +58,24 @@ toolkit:
 
 
 inputs:
-  # - reference_screenshots_url:
-  #     opts:
-  #       title: "Reference screenshot URL"
-  #       summary: Set of screenshots to test against
-  #       description: |
-  #         Set of screenshots to test against
-  #       is_expand: true
-  #       is_required: true
-  #       value_options: []
-  # - new_screenshots_path:
-  #       opts:
-  #         title: "Screenshots to test PATH"
-  #         summary: Set of screenshtos that will be tested
-  #         description: |
-  #           Set of screenshtos that will be tested
-  #         is_expand: true
-  #         is_required: true
-  #         value_options: []
+  - reference_screenshots_url:
+      opts:
+        title: "Reference screenshot URL"
+        summary: Set of screenshots to test against
+        description: |
+          Set of screenshots to test against
+        is_expand: true
+        is_required: true
+        value_options: []
+  - new_screenshots_path:
+        opts:
+          title: "Screenshots to test PATH"
+          summary: Set of screenshtos that will be tested
+          description: |
+            Set of screenshtos that will be tested
+          is_expand: true
+          is_required: true
+          value_options: []
 
 outputs:
   # - EXAMPLE_STEP_OUTPUT:

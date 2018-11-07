@@ -8,24 +8,20 @@ echo $BITRISE_DEPLOY_DIR
 echo $REFERENCE_SCREENSHOTS_URL
 echo $NEW_SCREENSHOTS_PATH
 
-# TODO Check $REFERENCE_SCREENSHOTS_URL and $NEW_SCREENSHOTS_PATH are valid
-
 # Is this necessary?
 rm -r -f original_refs
 rm -r -f refs
 rm -r -f new
+rm -r -f tmp_clone
 
-git clone $REFERENCE_SCREENSHOTS_URL original_refs
+git clone $REFERENCE_SCREENSHOTS_URL tmp_clone
+mv tmp_clone/* .
+rm -r -f tmp_clone
 
 mkdir refs
 mkdir new
 
-# cp ${NEW_SCREENSHOTS_PATH}/* new
-cp ${BITRISE_DEPLOY_DIR}/en-US/* new
-
-# Is there a better way to get the scripts?
-cp ${BITRISE_SOURCE_DIR}/../crop_original_refs.sh .
-cp ${BITRISE_SOURCE_DIR}/../image_diff.sh .
+cp ${NEW_SCREENSHOTS_PATH}/* new
 sh crop_original_refs.sh
 sh image_diff.sh
 
