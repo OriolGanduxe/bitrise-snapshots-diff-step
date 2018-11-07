@@ -58,7 +58,7 @@ toolkit:
 
 
 inputs:
-  - reference_screenshots_url: $REFERENCE_SCREENSHOTS_URL
+  - reference_screenshots_url:
       opts:
         title: "Reference screenshot URL"
         summary: Set of screenshots to test against
@@ -67,7 +67,7 @@ inputs:
         is_expand: true
         is_required: true
         value_options: []
-  - new_screenshots_path: $NEW_SCREENSHOTS_PATH
+  - new_screenshots_path:
         opts:
           title: "Screenshots to test PATH"
           summary: Set of screenshtos that will be tested

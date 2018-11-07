@@ -9,7 +9,7 @@ echo $REFERENCE_SCREENSHOTS_URL
 echo $NEW_SCREENSHOTS_PATH
 
 rm -r -f ./flo-screenshots
-git clone git@bitbucket.org:rchdba/flo-screenshots.git
+git clone $REFERENCE_SCREENSHOTS_URL
 cd flo-screenshots
 cp -r ../../new .
 cp ../../crop_original_refs.sh .
