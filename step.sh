@@ -8,12 +8,23 @@ echo $BITRISE_DEPLOY_DIR
 echo $REFERENCE_SCREENSHOTS_URL
 echo $NEW_SCREENSHOTS_PATH
 
-rm -r -f ./flo-screenshots
-git clone $REFERENCE_SCREENSHOTS_URL
-cd flo-screenshots
-cp -r ../../new .
-cp ../../crop_original_refs.sh .
-cp ../../image_diff.sh .
+# TODO Check $REFERENCE_SCREENSHOTS_URL and $NEW_SCREENSHOTS_PATH are valid
+
+# Is this necessary?
+rm -r -f original_refs
+rm -r -f refs
+rm -r -f new
+
+git clone $REFERENCE_SCREENSHOTS_URL original_refs
+
+mkdir refs
+mkdir new
+
+cp ${NEW_SCREENSHOTS_PATH}/* new
+
+# Is there a better way to get the scripts?
+cp ${BITRISE_SOURCE_DIR}/../crop_original_refs.sh .
+cp ${BITRISE_SOURCE_DIR}/../image_diff.sh .
 sh crop_original_refs.sh
 sh image_diff.sh
 
