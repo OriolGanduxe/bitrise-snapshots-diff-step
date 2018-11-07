@@ -3,7 +3,7 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 app:
   envs:
-  - REFERENCE_SCREENSHOTS_URL: 
+  - REFERENCE_SCREENSHOTS_URL: git@bitbucket.org:rchdba/flo-screenshots.git
   - NEW_SCREENSHOTS_PATH: "${BITRISE_SOURCE_DIR}/new"
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: snapshots-diff

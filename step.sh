@@ -21,7 +21,7 @@ mkdir refs
 mkdir new
 
 # cp ${NEW_SCREENSHOTS_PATH}/* new
-cp ${BITRISE_DEPLOY_DIR}/* new
+cp ${BITRISE_DEPLOY_DIR}/en-US/* new
 
 # Is there a better way to get the scripts?
 cp ${BITRISE_SOURCE_DIR}/../crop_original_refs.sh .
