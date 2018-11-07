@@ -18,14 +18,10 @@ rm -r -f tmp_clone
 git clone $REFERENCE_SCREENSHOTS_URL tmp_clone
 mv tmp_clone/* .
 rm -r -f tmp_clone
-mv $DIFF_LANGUAGE original_refs
 
-mkdir refs
-mkdir new
+new_screenshots=${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}
 
-cp ${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}/* new
-sh crop_original_refs.sh
-sh image_diff.sh
+sh image_diff.sh $DIFF_LANGUAGE $new_screenshots $NEW_SCREENSHOTS_PATH
 
 #
 # --- Exit codes:
