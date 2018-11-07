@@ -5,6 +5,7 @@ app:
   envs:
   - REFERENCE_SCREENSHOTS_URL: git@bitbucket.org:rchdba/flo-screenshots.git
   - NEW_SCREENSHOTS_PATH: "${BITRISE_SOURCE_DIR}/new"
+  - DIFF_LANGUAGE: "en-US"
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: snapshots-diff
   - BITRISE_STEP_VERSION: "0.0.1"

@@ -7,6 +7,7 @@ echo $BITRISE_SOURCE_DIR
 echo $BITRISE_DEPLOY_DIR
 echo $REFERENCE_SCREENSHOTS_URL
 echo $NEW_SCREENSHOTS_PATH
+echo $DIFF_LANGUAGE
 
 # Is this necessary?
 rm -r -f original_refs
@@ -17,11 +18,12 @@ rm -r -f tmp_clone
 git clone $REFERENCE_SCREENSHOTS_URL tmp_clone
 mv tmp_clone/* .
 rm -r -f tmp_clone
+mv $DIFF_LANGUAGE original_refs
 
 mkdir refs
 mkdir new
 
-cp ${NEW_SCREENSHOTS_PATH}/* new
+cp ${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}/* new
 sh crop_original_refs.sh
 sh image_diff.sh
 
