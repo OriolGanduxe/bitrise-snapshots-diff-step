@@ -40,11 +40,6 @@ function imageDiff {
 
   mkdir $diff_path
 
-  echo "REFDIF ${ref_dir}"
-  echo "NEWDIR ${new_dir}"
-  echo "OUTDIR ${diff_path}"
-  echo "TMPREFSDIR ${tmp_refs_dir}"
-
   echo "-- Starting images diff.."
   same_array=()
   similar_array=()
@@ -84,19 +79,22 @@ function imageDiff {
       fi
   done
 
-  echo "=====RESULTS====="
-  echo "SAME FILES: ${#same_array[@]}"
-  echo "SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)"
-  echo "DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)"
+  summary="=====RESULTS=====\n"
+  summary+="SAME FILES: ${#same_array[@]}\n"
+  summary+="SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)\n"
+  summary+="DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)\n"
   for different_path in "${different_array[@]}"
   do
-      echo $different_path
+      summary+="${different_path}\n"
   done
-  echo "NOT FOUND FILES: ${#not_found_array[@]}"
+  summary+="NOT FOUND FILES: ${#not_found_array[@]}\n"
   for not_found_path in "${not_found_array[@]}"
   do
-      echo $not_found_path
+      summary+="${not_found_path}\n"
   done
+
+  echo $summary
+  envman add --key DIFF_SUMMARY --value $summary
 }
 
 # MAIN SCRIPT

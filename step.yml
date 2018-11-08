@@ -13,9 +13,9 @@ summary: |
   It pulls a set of expected snapshots, comparing them with the new set. To look for potential bugs or broken UI.
 description: |
   It pulls a set of expected snapshots, comparing them with the new set. To look for potential bugs or broken UI.
-website: git@bitbucket.org:rchdba/bitrise-screenshots-diff-step.git
-source_code_url: git@bitbucket.org:rchdba/bitrise-screenshots-diff-step.git
-support_url: git@bitbucket.org:rchdba/bitrise-screenshots-diff-step.git
+website: https://github.com/OriolGanduxe/bitrise-snapshots-diff-step.git
+source_code_url: https://github.com/OriolGanduxe/bitrise-snapshots-diff-step.git
+support_url: https://github.com/OriolGanduxe/bitrise-snapshots-diff-step.git
 host_os_tags:
   - osx-10.10
   - ubuntu-16.04
@@ -31,6 +31,7 @@ host_os_tags:
 #
 project_type_tags:
   - ios
+  - android
 
 # Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
 # You can find more information about type tags in the Step Development Guideline:
@@ -76,13 +77,20 @@ inputs:
           is_expand: true
           is_required: true
           value_options: []
+  - language:
+        opts:
+          title: "Language code"
+          summary: Language code
+          description: |
+            Language code
+          is_expand: true
+          is_required: true
+          value_options: []
 
 outputs:
-  # - EXAMPLE_STEP_OUTPUT:
-  #   opts:
-  #     title: "Example Step Output"
-  #     summary: Summary. No more than 2-3 sentences.
-  #     description: |
-  #       Description of this output.
-  #
-  #       Can be Markdown formatted text.
+  - DIFF_SUMMARY:
+    opts:
+      title: "Diff summary"
+      summary: Diff summary
+      description: |
+        Diff summary
