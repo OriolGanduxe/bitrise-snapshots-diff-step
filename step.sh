@@ -79,22 +79,24 @@ function imageDiff {
       fi
   done
 
-  summary="=====RESULTS=====\n"
-  summary+="SAME FILES: ${#same_array[@]}\n"
-  summary+="SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)\n"
-  summary+="DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)\n"
+  echo "=====RESULTS====="
+  echo "SAME FILES: ${#same_array[@]}"
+  echo "SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)"
+  echo "DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)"
   for different_path in "${different_array[@]}"
   do
-      summary+="${different_path}\n"
+      echo "${different_path}"
   done
-  summary+="NOT FOUND FILES: ${#not_found_array[@]}\n"
+  echo "NOT FOUND FILES: ${#not_found_array[@]}"
   for not_found_path in "${not_found_array[@]}"
   do
-      summary+="${not_found_path}\n"
+      echo "${not_found_path}"
   done
 
-  echo $summary
-  envman add --key DIFF_SUMMARY --value $summary
+  envman add --key DIFF_SUMMARY --value "Diff Summary:
+  Similar ${#similar_array[@]}
+  Different ${#different_array[@]}
+  Not Found ${#not_found_array[@]}"
 }
 
 # MAIN SCRIPT
@@ -116,6 +118,7 @@ cropped_refs_path=./cropped_refs
 
 cropOriginalRefs $DIFF_LANGUAGE $cropped_refs_path
 imageDiff $DIFF_LANGUAGE $new_screenshots $NEW_SCREENSHOTS_PATH $cropped_refs_path
+
 
 #
 # --- Exit codes:
