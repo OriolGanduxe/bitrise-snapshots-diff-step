@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 function cropOriginalRefs {
 
@@ -24,12 +24,19 @@ function cropOriginalRefs {
 
 }
 
+function containsElement {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
 function imageDiff {
 
   ref_dir=$1
   new_dir=$2
   out_dir=$3
-  tmp_refs_dir=$4
+  diffignore_path=$4
 
   diff_path=$out_dir/diffs
 
@@ -43,10 +50,18 @@ function imageDiff {
   echo "-- Starting images diff.."
   same_array=()
   similar_array=()
+  ignored_array=()
   different_array=()
   not_found_array=()
 
-  for ref_path in $tmp_refs_dir/*.png
+  similar_ignored_array=()
+  echo "IGNORING"
+  while IFS='' read -r line || [[ -n "$line" ]]; do
+    similar_to_ignore_array+=("$line")
+    echo $line
+  done < $diffignore_path
+
+  for ref_path in $ref_dir/*.png
   do
 
       name=$(basename "$ref_path")
@@ -67,9 +82,18 @@ function imageDiff {
               rm "${filename}"-0."${extension}"
               rm "${filename}"-1."${extension}"
           elif [ $result -eq 1 ] ; then
+
+            set +e
+            is_ignored=$(containsElement "${name}" "${similar_to_ignore_array[@]}"; echo $?)
+            set -e
+            if [ $is_ignored -eq 0 ] ; then
+              ignored_array+=("$new_path")
+            else
               similar_array+=("$new_path")
-              # Removing empty generated file
-              rm "${filename}"-1."${extension}"
+            fi
+            # Removing empty generated file
+            rm "${filename}"-1."${extension}"
+
           else
               different_array+=("$new_path")
           fi
@@ -81,6 +105,7 @@ function imageDiff {
 
   echo "=====RESULTS====="
   echo "SAME FILES: ${#same_array[@]}"
+  echo "IGNORED FILES: ${#ignored_array[@]}"
   echo "SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)"
   echo "DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)"
   for different_path in "${different_array[@]}"
@@ -94,6 +119,7 @@ function imageDiff {
   done
 
   envman add --key DIFF_SUMMARY --value "Diff Summary:
+  Ignored ${#ignored_array[@]}
   Similar ${#similar_array[@]}
   Different ${#different_array[@]}
   Not Found ${#not_found_array[@]}"
@@ -109,6 +135,7 @@ rm -r -f tmp_clone
 
 new_screenshots=${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}
 cropped_refs_path=./cropped_refs
+diffignore_path=${DIFF_LANGUAGE}/diffignore
 
 cropOriginalRefs $DIFF_LANGUAGE $cropped_refs_path
-imageDiff $DIFF_LANGUAGE $new_screenshots $NEW_SCREENSHOTS_PATH $cropped_refs_path
+imageDiff $cropped_refs_path $new_screenshots $NEW_SCREENSHOTS_PATH $diffignore_path
