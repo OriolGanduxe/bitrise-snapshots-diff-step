@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 function cropOriginalRefs {
 
@@ -101,24 +101,17 @@ function imageDiff {
 
 # MAIN SCRIPT
 
-echo $BITRISE_SOURCE_DIR
-echo $BITRISE_DEPLOY_DIR
-echo $REFERENCE_SCREENSHOTS_URL
-echo $NEW_SCREENSHOTS_PATH
-echo $DIFF_LANGUAGE
-
 # Cloning into a folder that has files already, fails.
 # On MacOSX usually we have the .DS_Store file that makes it fail
-git clone $REFERENCE_SCREENSHOTS_URL tmp_clone
+git clone $reference_screenshots_url tmp_clone
 mv tmp_clone/* .
 rm -r -f tmp_clone
 
-new_screenshots=${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}
+new_screenshots=${new_screenshots_path}/${language}
 cropped_refs_path=./cropped_refs
 
-cropOriginalRefs $DIFF_LANGUAGE $cropped_refs_path
-imageDiff $DIFF_LANGUAGE $new_screenshots $NEW_SCREENSHOTS_PATH $cropped_refs_path
-
+cropOriginalRefs $language $cropped_refs_path
+imageDiff $language $new_screenshots $new_screenshots_path $cropped_refs_path
 
 #
 # --- Exit codes:

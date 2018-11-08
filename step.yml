@@ -62,35 +62,27 @@ inputs:
   - reference_screenshots_url:
       opts:
         title: "Reference screenshot URL"
-        summary: Set of screenshots to test against
         description: |
           Set of screenshots to test against
         is_expand: true
         is_required: true
-        value_options: []
   - new_screenshots_path:
         opts:
           title: "Screenshots to test PATH"
-          summary: Set of screenshtos that will be tested
           description: |
             Set of screenshtos that will be tested
           is_expand: true
           is_required: true
-          value_options: []
   - language:
         opts:
           title: "Language code"
-          summary: Language code
           description: |
             Language code
           is_expand: true
           is_required: true
-          value_options: []
-
 outputs:
   - DIFF_SUMMARY:
     opts:
       title: "Diff summary"
-      summary: Diff summary
       description: |
         Diff summary
