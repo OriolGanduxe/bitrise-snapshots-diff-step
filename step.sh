@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 function cropOriginalRefs {
 
@@ -103,18 +103,12 @@ function imageDiff {
 
 # Cloning into a folder that has files already, fails.
 # On MacOSX usually we have the .DS_Store file that makes it fail
-git clone $reference_screenshots_url tmp_clone
+git clone $REFERENCE_SCREENSHOTS_URL tmp_clone
 mv tmp_clone/* .
 rm -r -f tmp_clone
 
-new_screenshots=${new_screenshots_path}/${language}
+new_screenshots=${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}
 cropped_refs_path=./cropped_refs
 
-cropOriginalRefs $language $cropped_refs_path
-imageDiff $language $new_screenshots $new_screenshots_path $cropped_refs_path
-
-#
-# --- Exit codes:
-# The exit code of your Step is very important. If you return
-#  with a 0 exit code `bitrise` will register your Step as "successful".
-# Any non zero exit code will be registered as "failed" by `bitrise`.
+cropOriginalRefs $DIFF_LANGUAGE $cropped_refs_path
+imageDiff $DIFF_LANGUAGE $new_screenshots $NEW_SCREENSHOTS_PATH $cropped_refs_path
