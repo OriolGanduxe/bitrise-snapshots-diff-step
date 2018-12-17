@@ -18,7 +18,6 @@ source_code_url: https://github.com/OriolGanduxe/bitrise-snapshots-diff-step.git
 support_url: https://github.com/OriolGanduxe/bitrise-snapshots-diff-step.git
 host_os_tags:
   - osx-10.10
-  - ubuntu-16.04
 
 # If this step should be available only for certain project types
 # just uncomment this `project_type_tags` section and include all the
@@ -31,7 +30,6 @@ host_os_tags:
 #
 project_type_tags:
   - ios
-  - android
 
 # Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
 # You can find more information about type tags in the Step Development Guideline:
@@ -63,21 +61,21 @@ inputs:
     opts:
       title: "Reference screenshot URL"
       description: |
-        Set of screenshots to test against
+        Set of screenshots to test against.
       is_expand: true
       is_required: true
   - new_screenshots_path:
     opts:
       title: "Screenshots to test PATH"
       description: |
-        Set of screenshtos that will be tested
+        Set of screenshtos that will be tested.
       is_expand: true
       is_required: true
   - language:
     opts:
       title: "Language code"
       description: |
-        Language code
+        Language code such as en-US or es-ES. Will fetch a folder with that name in the reference and new screenshots.
       is_expand: true
       is_required: true
 outputs:

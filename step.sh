@@ -1,11 +1,13 @@
 #!/bin/bash
 set -ex
 
+# Give a path with images, it crops its upper 40px, (iOS status bar) and stores the result to out_dir
 function cropOriginalRefs {
 
   in_dir=$1
   out_dir=$2
 
+  # Clearing out_dir
   if [[ -d $out_dir ]] ; then
     rm -r $out_dir
   fi
@@ -13,17 +15,16 @@ function cropOriginalRefs {
   mkdir $out_dir
 
   echo "-- Start cropping.."
-
+  # For each image, we remove the first 40 pixels (iOS status bar)
   for original_path in $in_dir/*.png
   do
-
       name=$(basename "$original_path")
       magick convert "${original_path}" -gravity north -chop 0x40 "${out_dir}/${name}"
   done
   echo "-- Cropping finished!"
-
 }
 
+# Helper method to check if element exists in a list
 function containsElement {
   local e match="$1"
   shift
@@ -31,6 +32,8 @@ function containsElement {
   return 1
 }
 
+# Given a path with expected preloaded screenshtos (ref_dir) and a path of newly generated screenshots (new_dir), we generate a set of images diff report to out_dir
+# diffignore_path is used as a way to ignore images that will likely not be exactly the same, because of different timestamps, etc
 function imageDiff {
 
   ref_dir=$1
@@ -40,6 +43,7 @@ function imageDiff {
 
   diff_path=$out_dir/diffs
 
+  # Clearing folder
   if [[ -d $diff_path ]] ; then
     echo "-- Clearing diffs folder.."
     rm -r $diff_path
@@ -53,14 +57,15 @@ function imageDiff {
   ignored_array=()
   different_array=()
   not_found_array=()
-
   similar_ignored_array=()
-  echo "IGNORING"
+
+  # Reading ignore diff file
   while IFS='' read -r line || [[ -n "$line" ]]; do
     similar_to_ignore_array+=("$line")
     echo $line
   done < $diffignore_path
 
+  # Iterating over refs to check how similar are to the new ones
   for ref_path in $ref_dir/*.png
   do
 
@@ -99,25 +104,28 @@ function imageDiff {
           fi
 
       else
-          not_found_array+=("$new_path")
+        # Expected image doesn't exist
+        not_found_array+=("$new_path")
       fi
   done
 
-  echo "=====RESULTS====="
-  echo "SAME FILES: ${#same_array[@]}"
-  echo "IGNORED FILES: ${#ignored_array[@]}"
-  echo "SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)"
-  echo "DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)"
+  # Printed report
+  echo "=====SCREENSHOTS DIFF RESULTS====="
+  echo "-- SAME FILES: ${#same_array[@]}"
+  echo "-- IGNORED FILES: ${#ignored_array[@]}"
+  echo "-- SIMILAR FILES: ${#similar_array[@]} (See differences in ./diffs folder)"
+  echo "-- DIFFERENT FILES: ${#different_array[@]} (Too different to generate diff pngs)"
   for different_path in "${different_array[@]}"
   do
       echo "${different_path}"
   done
-  echo "NOT FOUND FILES: ${#not_found_array[@]}"
+  echo "-- NOT FOUND FILES: ${#not_found_array[@]}"
   for not_found_path in "${not_found_array[@]}"
   do
       echo "${not_found_path}"
   done
 
+  # Step returned env var summary report
   envman add --key DIFF_SUMMARY --value "Diff Summary:
   Ignored ${#ignored_array[@]}
   Similar ${#similar_array[@]}
