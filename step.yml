@@ -60,26 +60,26 @@ toolkit:
 
 inputs:
   - reference_screenshots_url:
-      opts:
-        title: "Reference screenshot URL"
-        description: |
-          Set of screenshots to test against
-        is_expand: true
-        is_required: true
+    opts:
+      title: "Reference screenshot URL"
+      description: |
+        Set of screenshots to test against
+      is_expand: true
+      is_required: true
   - new_screenshots_path:
-        opts:
-          title: "Screenshots to test PATH"
-          description: |
-            Set of screenshtos that will be tested
-          is_expand: true
-          is_required: true
+    opts:
+      title: "Screenshots to test PATH"
+      description: |
+        Set of screenshtos that will be tested
+      is_expand: true
+      is_required: true
   - language:
-        opts:
-          title: "Language code"
-          description: |
-            Language code
-          is_expand: true
-          is_required: true
+    opts:
+      title: "Language code"
+      description: |
+        Language code
+      is_expand: true
+      is_required: true
 outputs:
   - DIFF_SUMMARY:
     opts:

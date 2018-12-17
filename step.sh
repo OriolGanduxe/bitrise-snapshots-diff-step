@@ -127,15 +127,30 @@ function imageDiff {
 
 # MAIN SCRIPT
 
+if [ -z "${reference_screenshots_url}" ] ; then
+  echo " [!] reference_screenshots_url not found"
+  exit 1
+fi
+
+if [ -z "${new_screenshots_path}" ] ; then
+  echo " [!] new_screenshots_path not found"
+  exit 1
+fi
+
+if [ -z "${language}" ] ; then
+  echo " [!] language not found"
+  exit 1
+fi
+
 # Cloning into a folder that has files already, fails.
 # On MacOSX usually we have the .DS_Store file that makes it fail
-git clone $REFERENCE_SCREENSHOTS_URL tmp_clone
+git clone $reference_screenshots_url tmp_clone
 mv tmp_clone/* .
 rm -r -f tmp_clone
 
-new_screenshots=${NEW_SCREENSHOTS_PATH}/${DIFF_LANGUAGE}
+new_screenshots=${new_screenshots_path}/${language}
 cropped_refs_path=./cropped_refs
-diffignore_path=${DIFF_LANGUAGE}/diffignore
+diffignore_path=${language}/diffignore
 
-cropOriginalRefs $DIFF_LANGUAGE $cropped_refs_path
-imageDiff $cropped_refs_path $new_screenshots $NEW_SCREENSHOTS_PATH $diffignore_path
+cropOriginalRefs $language $cropped_refs_path
+imageDiff $cropped_refs_path $new_screenshots $new_screenshots_path $diffignore_path
